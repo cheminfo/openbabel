@@ -60,7 +60,7 @@ docker compose up -d
 ```
 
 Edit the `Host(...)` label in `compose.yaml` to point at the public hostname
-you have configured for this service (default `openbabel.lactame.com`).
+you have configured for this service (default `openbabel.cheminfo.org`).
 
 ## Local development
 

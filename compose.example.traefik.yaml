@@ -33,7 +33,7 @@ services:
       - traefik
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.openbabel.rule=Host(`openbabel.lactame.com`)'
+      - 'traefik.http.routers.openbabel.rule=Host(`openbabel.cheminfo.org`)'
       - 'traefik.http.routers.openbabel.entrypoints=websecure'
       - 'traefik.http.routers.openbabel.tls.certresolver=letsencrypt'
       - 'traefik.http.services.openbabel.loadbalancer.server.port=${PORT:-20808}'
