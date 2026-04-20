@@ -2,5 +2,45 @@
   "name": "openbabel-docker",
   "version": "1.1.0",
   "description": "openbabel docker web service",
-  "private": true
+  "private": true,
+  "type": "module",
+  "homepage": "https://github.com/cheminfo/openbabel-docker#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheminfo/openbabel-docker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cheminfo/openbabel-docker/issues"
+  },
+  "license": "MIT",
+  "author": "Luc Patiny",
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=.env src/index.js",
+    "eslint": "eslint src",
+    "eslint-fix": "npm run eslint -- --fix",
+    "prettier": "prettier --check src",
+    "prettier-write": "prettier --write src",
+    "start": "node --env-file-if-exists=.env src/index.js",
+    "test": "npm run test-only && npm run eslint && npm run prettier",
+    "test-only": "vitest run"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "@fastify/multipart": "^10.0.0",
+    "@fastify/sensible": "^6.0.4",
+    "@fastify/static": "9.1.0",
+    "@fastify/swagger": "^9.7.0",
+    "@fastify/swagger-ui": "^5.2.5",
+    "fastify": "^5.8.5"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "eslint-config-cheminfo": "^18.0.0",
+    "globals": "^16.5.0",
+    "prettier": "^3.8.3",
+    "vitest": "^4.1.4"
+  },
+  "overrides": {
+    "@fastify/static": "9.1.0"
+  }
 }

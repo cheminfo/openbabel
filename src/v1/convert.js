@@ -1,4 +1,4 @@
-import { spawnSync } from 'child_process';
+import { spawnSync } from 'node:child_process';
 
 import getBabel from './utils/getBabel.js';
 import getInputFormats from './utils/getInputFormats.js';
@@ -52,16 +52,16 @@ export default function convert(fastify) {
           },
         },
       },
-    }
-  },)
+    },
+  });
 }
 
 async function doConvert(request, response) {
   const params = request.body || request.query;
 
-  for (let key in params) {
+  for (const key in params) {
     if (params[key].value) {
-      params[key] = params[key].value
+      params[key] = params[key].value;
     }
   }
 
@@ -83,7 +83,7 @@ async function doConvert(request, response) {
     });
 
     response.send({ result: result.stdout, log: result.stderr });
-  } catch (e) {
-    response.send({ result: {}, log: e.toString() });
+  } catch (error) {
+    response.send({ result: {}, log: error.toString() });
   }
 }

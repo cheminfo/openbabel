@@ -1,7 +1,14 @@
 node_modules
+coverage
+.DS_Store
 .idea
+.claude
+
+# Logs
 logs
 *.log
 npm-debug.log*
-coverage
-.DS_Store
+
+# Local environment and compose files
+.env
+compose.yaml

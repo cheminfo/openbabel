@@ -1,0 +1,58 @@
+# Cloudflare Tunnel deployment — no port published on the host.
+#
+# Cloudflare dashboard (https://dash.cloudflare.com):
+#   Networking → Tunnels → Create a tunnel → Cloudflared connector →
+#   copy the token into .env as TUNNEL_TOKEN=... → open the tunnel →
+#   Published applications tab → add application with
+#   Service = HTTP, URL = openbabel:${PORT} (default openbabel:20808).
+#
+# Copy this file to compose.yaml and run: docker compose up -d
+
+services:
+  openbabel:
+    # Use the released image by default. To build locally instead, run:
+    #   docker compose up -d --build
+    image: ghcr.io/cheminfo/openbabel-docker:latest
+    build: .
+    init: true
+    restart: unless-stopped
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    env_file: .env
+    mem_limit: 512m
+    cpus: 2
+    ulimits:
+      nofile: 4096
+      nproc: 256
+      core: 0
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '50m'
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    init: true
+    restart: unless-stopped
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    env_file: .env
+    mem_limit: 128m
+    cpus: 1
+    ulimits:
+      nofile: 1024
+      nproc: 64
+      core: 0
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '50m'
+    depends_on:
+      - openbabel

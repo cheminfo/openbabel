@@ -1,39 +1,86 @@
 # openbabel-docker
 
-Webservice allowing to convert between molecule formats using openbabel
+Web service that converts between molecule formats using [OpenBabel](https://openbabel.org/).
 
-## Installation
+## Installation with Docker
 
-This project uses docker. After cloning the project you should do:
+The service is distributed as a Docker image at `ghcr.io/cheminfo/openbabel-docker`.
 
-`cp docker-compose.example.yml docker-compose.yml`
+```bash
+git clone https://github.com/cheminfo/openbabel-docker.git
+cd openbabel-docker
 
-You can either use a released docker image or build the head. Please change `docker-compose.yml` accordingly.
+cp .env.example .env
+cp compose.example.yaml compose.yaml
 
-`docker-compose up --build -d`
+# Run the released image:
+docker compose pull && docker compose up -d
 
-This will start a webserver on port 20808
-
-For the browser you can test for example:
-
-`http://localhost:20808/`
-
-## Local developmwent
-
-For local development you may have to edit the `docker/.env` in order to set the location of BABEL.
-
+# Or rebuild from the current checkout:
+docker compose up -d --build
 ```
-cd docker
-docker build . -t openbabel
-docker run -it openbabel bash
+
+The default port is `20808`. Change it by editing `PORT` in `.env`.
+Open [http://localhost:20808/](http://localhost:20808/) to access the Swagger UI.
+
+### Cloudflare Tunnel deployment
+
+For a publicly-reachable deployment behind Cloudflare Tunnel (no host port published):
+
+```bash
+cp .env.example .env
+cp compose.example.cloudflared.yaml compose.yaml
+```
+
+In the Cloudflare dashboard (<https://dash.cloudflare.com>):
+
+1. Navigate to **Networking → Tunnels → Create a tunnel → Cloudflared connector**.
+2. Copy the generated token into `.env` as `TUNNEL_TOKEN=...`.
+3. Open the tunnel, go to the **Published applications** tab, and add an application with:
+   - **Public hostname**: `openbabel.lactame.com` (or another domain you control)
+   - **Service type**: HTTP
+   - **Service URL**: `openbabel:20808` (match `PORT` from `.env`)
+
+Then start the stack:
+
+```bash
+docker compose up -d
+```
+
+### Traefik deployment
+
+For a host that already runs a [Traefik](https://traefik.io/) reverse proxy on
+an external Docker network named `traefik` (with a `websecure` entrypoint and
+a `letsencrypt` cert resolver):
+
+```bash
+cp .env.example .env
+cp compose.example.traefik.yaml compose.yaml
+docker compose up -d
+```
+
+Edit the `Host(...)` label in `compose.yaml` to point at the public hostname
+you have configured for this service (default `openbabel.lactame.com`).
+
+## Local development
+
+```bash
+npm install
+npm run dev
+```
+
+`PORT` and `BABEL` are read from the environment (with `.env` auto-loaded via
+`node --env-file-if-exists=.env`). By default `BABEL` is auto-detected from
+`/opt/homebrew/bin/obabel` and `/usr/bin/obabel`.
+
+Run the full check (tests + eslint + prettier):
+
+```bash
+npm test
 ```
 
 ## License
 
 [MIT](./LICENSE)
 
-openbabel is subject to its own license.
-
-```
-
-```
+OpenBabel is subject to [its own license](https://github.com/openbabel/openbabel/blob/master/COPYING).

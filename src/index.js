@@ -7,17 +7,20 @@ import fastifyPkg from 'fastify';
 
 import v1 from './v1/v1.js';
 
+const PORT = Number(process.env.PORT ?? 20808);
+const HOST = process.env.HOST ?? '0.0.0.0';
+
 const fastify = fastifyPkg({
   logger: false,
 });
 
-fastify.register(fastifyCors, {
+await fastify.register(fastifyCors, {
   maxAge: 86400,
 });
 
-fastify.register(fastifyMultipart, { attachFieldsToBody: true });
+await fastify.register(fastifyMultipart, { attachFieldsToBody: true });
 
-fastify.register(fastifySensible);
+await fastify.register(fastifySensible);
 
 fastify.get('/', (_, reply) => {
   reply.redirect('/documentation');
@@ -27,12 +30,11 @@ await fastify.register(fastifySwagger, {
   swagger: {
     info: {
       title: 'Convert chemical file format using OpenBabel',
-      description: ``,
+      description: '',
       version: '1.0.0',
     },
     produces: ['application/json'],
   },
-  exposeRoute: true,
 });
 
 await fastify.register(fastifySwaggerUi, {
@@ -43,16 +45,16 @@ await fastify.register(fastifySwaggerUi, {
   },
 });
 
-v1(fastify);
+await fastify.register(v1);
 
 await fastify.ready();
 fastify.swagger();
 
-// eslint-disable-next-line no-console
-console.log('http://localhost:20808')
-fastify.listen({ port: 20808, host: '0.0.0.0' }, (err) => {
+fastify.listen({ port: PORT, host: HOST }, (err, address) => {
   if (err) {
     fastify.log.error(err);
     process.exit(1);
   }
+  // eslint-disable-next-line no-console
+  console.log(`Server listening at ${address}`);
 });

@@ -1,0 +1,44 @@
+# Traefik deployment — no port published on the host.
+#
+# Requires an external Docker network named `traefik` that hosts the Traefik
+# reverse proxy, with a `websecure` entrypoint and a `letsencrypt` cert resolver.
+#
+# Copy this file to compose.yaml and run: docker compose up -d
+
+services:
+  openbabel:
+    # Use the released image by default. To build locally instead, run:
+    #   docker compose up -d --build
+    image: ghcr.io/cheminfo/openbabel-docker:latest
+    build: .
+    init: true
+    restart: unless-stopped
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    env_file: .env
+    mem_limit: 512m
+    cpus: 2
+    ulimits:
+      nofile: 4096
+      nproc: 256
+      core: 0
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '50m'
+    networks:
+      - default
+      - traefik
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.openbabel.rule=Host(`openbabel.lactame.com`)'
+      - 'traefik.http.routers.openbabel.entrypoints=websecure'
+      - 'traefik.http.routers.openbabel.tls.certresolver=letsencrypt'
+      - 'traefik.http.services.openbabel.loadbalancer.server.port=${PORT:-20808}'
+
+networks:
+  traefik:
+    external: true

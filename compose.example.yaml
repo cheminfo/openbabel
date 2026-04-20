@@ -1,0 +1,26 @@
+services:
+  openbabel:
+    # Use the released image by default. To build locally instead, run:
+    #   docker compose up -d --build
+    image: ghcr.io/cheminfo/openbabel-docker:latest
+    build: .
+    init: true
+    restart: unless-stopped
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    env_file: .env
+    mem_limit: 512m
+    cpus: 2
+    ulimits:
+      nofile: 4096
+      nproc: 256
+      core: 0
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '50m'
+    ports:
+      - '127.0.0.1:${PORT:-20808}:${PORT:-20808}'

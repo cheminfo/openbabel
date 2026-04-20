@@ -1,11 +1,11 @@
-import { spawnSync } from 'child_process';
+import { spawnSync } from 'node:child_process';
 
 import getBabel from './getBabel.js';
 
 const BABEL = getBabel();
 
-export default function getInputFormats() {
-  const result = spawnSync(BABEL, ['-L', 'formats', 'read'], {
+export default function getOutputFormats() {
+  const result = spawnSync(BABEL, ['-L', 'formats', 'write'], {
     stdio: ['pipe', 'pipe', 'pipe'],
     encoding: 'utf-8',
   });
