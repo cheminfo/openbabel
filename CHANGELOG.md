@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1](https://github.com/cheminfo/openbabel/compare/v1.2.0...v1.2.1) (2026-04-20)
+
+
+### Bug Fixes
+
+* **compose:** drop ulimits.nproc/nofile, use pids_limit instead ([5f29817](https://github.com/cheminfo/openbabel/commit/5f29817cd2e4cc14c4905b2b34dbc85a28c6784e))
+* **compose:** traefik default host is openbabel.cheminfo.org ([b56eef2](https://github.com/cheminfo/openbabel/commit/b56eef28d75e191d114be53f869733a780733607))
+
 ## [1.2.0](https://github.com/cheminfo/openbabel/compare/v1.1.0...v1.2.0) (2026-04-20)
 
 
