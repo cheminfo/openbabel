@@ -14,9 +14,8 @@ services:
     env_file: .env
     mem_limit: 512m
     cpus: 2
+    pids_limit: 256
     ulimits:
-      nofile: 4096
-      nproc: 256
       core: 0
     logging:
       driver: 'json-file'
