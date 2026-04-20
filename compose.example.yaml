@@ -2,7 +2,7 @@ services:
   openbabel:
     # Use the released image by default. To build locally instead, run:
     #   docker compose up -d --build
-    image: ghcr.io/cheminfo/openbabel-docker:latest
+    image: ghcr.io/cheminfo/openbabel:latest
     build: .
     init: true
     restart: unless-stopped

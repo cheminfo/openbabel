@@ -1,14 +1,14 @@
-# openbabel-docker
+# openbabel
 
 Web service that converts between molecule formats using [OpenBabel](https://openbabel.org/).
 
 ## Installation with Docker
 
-The service is distributed as a Docker image at `ghcr.io/cheminfo/openbabel-docker`.
+The service is distributed as a Docker image at `ghcr.io/cheminfo/openbabel`.
 
 ```bash
-git clone https://github.com/cheminfo/openbabel-docker.git
-cd openbabel-docker
+git clone https://github.com/cheminfo/openbabel.git
+cd openbabel
 
 cp .env.example .env
 cp compose.example.yaml compose.yaml
