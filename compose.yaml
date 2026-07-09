@@ -1,3 +1,7 @@
+# Port-published deployment — publishes PORT on the host (default mode).
+#
+# Used by default when COMPOSE_FILE is unset in .env. Run: docker compose up -d
+
 services:
   openbabel:
     # Use the released image by default. To build locally instead, run:
@@ -6,6 +10,7 @@ services:
     build: .
     init: true
     restart: unless-stopped
+    stop_grace_period: 30s
     read_only: true
     security_opt:
       - no-new-privileges:true

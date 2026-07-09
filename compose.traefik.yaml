@@ -3,7 +3,7 @@
 # Requires an external Docker network named `traefik` that hosts the Traefik
 # reverse proxy, with a `websecure` entrypoint and a `letsencrypt` cert resolver.
 #
-# Copy this file to compose.yaml and run: docker compose up -d
+# Select via COMPOSE_FILE=compose.traefik.yaml in .env, then: docker compose up -d
 
 services:
   openbabel:
@@ -13,6 +13,7 @@ services:
     build: .
     init: true
     restart: unless-stopped
+    stop_grace_period: 30s
     read_only: true
     security_opt:
       - no-new-privileges:true

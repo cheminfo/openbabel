@@ -1,0 +1,7 @@
+.claude
+.env
+.git
+.github
+compose*.yaml
+coverage
+node_modules

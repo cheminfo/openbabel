@@ -71,14 +71,16 @@ async function doConvert(request, response) {
   if (params.ph) flags.push(`-p ${params.ph}`);
   if (params.coordinates && params.coordinates === '2D') flags.push('--gen2D');
   if (params.coordinates && params.coordinates === '3D') flags.push('--gen3D');
-  flags.push(`-i${params.inputFormat.replace(/ .*/, '')}`);
-  flags.push(`-o${params.outputFormat.replace(/ .*/, '')}`);
+  flags.push(
+    `-i${params.inputFormat.replace(/ .*/, '')}`,
+    `-o${params.outputFormat.replace(/ .*/, '')}`,
+  );
 
   try {
     const result = spawnSync(BABEL, flags, {
       stdio: ['pipe', 'pipe', 'pipe'],
       input: params.input,
-      encoding: 'utf-8',
+      encoding: 'utf8',
       timeout: 10000,
     });
 

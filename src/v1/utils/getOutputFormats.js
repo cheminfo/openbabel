@@ -7,7 +7,7 @@ const BABEL = getBabel();
 export default function getOutputFormats() {
   const result = spawnSync(BABEL, ['-L', 'formats', 'write'], {
     stdio: ['pipe', 'pipe', 'pipe'],
-    encoding: 'utf-8',
+    encoding: 'utf8',
   });
   return result.stdout.split(/\r?\n/);
 }

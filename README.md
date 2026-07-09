@@ -5,13 +5,15 @@ Web service that converts between molecule formats using [OpenBabel](https://ope
 ## Installation with Docker
 
 The service is distributed as a Docker image at `ghcr.io/cheminfo/openbabel`.
+The deployment mode is selected with the `COMPOSE_FILE` variable in `.env`
+(with none set, `docker compose` uses `compose.yaml`, which publishes the port
+on the host).
 
 ```bash
 git clone https://github.com/cheminfo/openbabel.git
 cd openbabel
 
 cp .env.example .env
-cp compose.example.yaml compose.yaml
 
 # Run the released image:
 docker compose pull && docker compose up -d
@@ -25,11 +27,11 @@ Open [http://localhost:20808/](http://localhost:20808/) to access the Swagger UI
 
 ### Cloudflare Tunnel deployment
 
-For a publicly-reachable deployment behind Cloudflare Tunnel (no host port published):
+For a publicly-reachable deployment behind Cloudflare Tunnel (no host port published),
+uncomment the following line in `.env`:
 
-```bash
-cp .env.example .env
-cp compose.example.cloudflared.yaml compose.yaml
+```sh
+COMPOSE_FILE=compose.cloudflared.yaml
 ```
 
 In the Cloudflare dashboard (<https://dash.cloudflare.com>):
@@ -51,16 +53,19 @@ docker compose up -d
 
 For a host that already runs a [Traefik](https://traefik.io/) reverse proxy on
 an external Docker network named `traefik` (with a `websecure` entrypoint and
-a `letsencrypt` cert resolver):
+a `letsencrypt` cert resolver), uncomment the following line in `.env` and start
+the stack:
+
+```sh
+COMPOSE_FILE=compose.traefik.yaml
+```
 
 ```bash
-cp .env.example .env
-cp compose.example.traefik.yaml compose.yaml
 docker compose up -d
 ```
 
-Edit the `Host(...)` label in `compose.yaml` to point at the public hostname
-you have configured for this service (default `openbabel.cheminfo.org`).
+Edit the `Host(...)` label in `compose.traefik.yaml` to point at the public
+hostname you have configured for this service (default `openbabel.cheminfo.org`).
 
 ## Local development
 

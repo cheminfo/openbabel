@@ -9,6 +9,5 @@ logs
 *.log
 npm-debug.log*
 
-# Local environment and compose files
+# Local environment
 .env
-compose.yaml

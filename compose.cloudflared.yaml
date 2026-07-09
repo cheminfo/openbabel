@@ -6,7 +6,7 @@
 #   Published applications tab → add application with
 #   Service = HTTP, URL = openbabel:${PORT} (default openbabel:20808).
 #
-# Copy this file to compose.yaml and run: docker compose up -d
+# Select via COMPOSE_FILE=compose.cloudflared.yaml in .env, then: docker compose up -d
 
 services:
   openbabel:
@@ -16,6 +16,7 @@ services:
     build: .
     init: true
     restart: unless-stopped
+    stop_grace_period: 30s
     read_only: true
     security_opt:
       - no-new-privileges:true

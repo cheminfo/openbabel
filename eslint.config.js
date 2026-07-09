@@ -1,11 +1,12 @@
-import { defineConfig } from 'eslint/config';
-import js from 'eslint-config-cheminfo/base';
-import globals from 'globals';
+import { defineConfig, globalIgnores } from 'eslint/config';
+import { globals } from 'eslint-config-zakodium';
+import js from 'eslint-config-zakodium/js';
+import unicorn from 'eslint-config-zakodium/unicorn';
 
-export default defineConfig(js, {
+export default defineConfig(globalIgnores(['coverage']), js, unicorn, {
   languageOptions: {
     globals: {
-      ...globals.node,
+      ...globals.nodeBuiltin,
     },
   },
 });

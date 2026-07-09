@@ -50,11 +50,6 @@ await fastify.register(v1);
 await fastify.ready();
 fastify.swagger();
 
-fastify.listen({ port: PORT, host: HOST }, (err, address) => {
-  if (err) {
-    fastify.log.error(err);
-    process.exit(1);
-  }
-  // eslint-disable-next-line no-console
-  console.log(`Server listening at ${address}`);
-});
+const address = await fastify.listen({ port: PORT, host: HOST });
+// eslint-disable-next-line no-console
+console.log(`Server listening at ${address}`);
