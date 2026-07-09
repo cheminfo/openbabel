@@ -14,14 +14,21 @@
   },
   "license": "MIT",
   "author": "Luc Patiny",
+  "workspaces": [
+    "frontend"
+  ],
   "scripts": {
+    "build": "npm run build --workspace=frontend",
+    "check-types": "npm run check-types --workspace=frontend",
     "dev": "node --watch --env-file-if-exists=.env src/index.js",
+    "dev-frontend": "npm run dev --workspace=frontend",
     "eslint": "eslint .",
     "eslint-fix": "eslint . --fix",
     "prettier": "prettier --check .",
     "prettier-write": "prettier --write .",
     "start": "node --env-file-if-exists=.env src/index.js",
-    "test": "npm run test-only && npm run eslint && npm run prettier",
+    "test": "npm run test-only && npm run check-types && npm run eslint && npm run prettier",
+    "test-e2e": "npm run test-e2e --workspace=frontend",
     "test-only": "vitest run --coverage"
   },
   "dependencies": {
@@ -38,6 +45,7 @@
     "eslint": "^9.39.4",
     "eslint-config-zakodium": "^20.0.0",
     "prettier": "^3.9.4",
+    "typescript": "^6.0.3",
     "vitest": "^4.1.10"
   },
   "overrides": {

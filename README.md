@@ -2,6 +2,10 @@
 
 Web service that converts between molecule formats using [OpenBabel](https://openbabel.org/).
 
+The service ships a React frontend at `/` to convert structures interactively
+(text input or structure editor), the Swagger API documentation at
+`/documentation`, and the REST API under `/v1`.
+
 ## Installation with Docker
 
 The service is distributed as a Docker image at `ghcr.io/cheminfo/openbabel`.
@@ -23,7 +27,9 @@ docker compose up -d --build
 ```
 
 The default port is `20808`. Change it by editing `PORT` in `.env`.
-Open [http://localhost:20808/](http://localhost:20808/) to access the Swagger UI.
+Open [http://localhost:20808/](http://localhost:20808/) to access the converter
+frontend, or [http://localhost:20808/documentation](http://localhost:20808/documentation)
+for the Swagger UI.
 
 ### Cloudflare Tunnel deployment
 
@@ -71,8 +77,13 @@ hostname you have configured for this service (default `openbabel.cheminfo.org`)
 
 ```bash
 npm install
-npm run dev
+npm run dev            # backend API on :20808
+npm run dev-frontend   # frontend dev server on :5173 (proxies /v1 to :20808)
 ```
+
+The frontend lives in the `frontend/` npm workspace (React + Vite). In
+production the backend serves the built frontend at `/`; build it locally with
+`npm run build`.
 
 `PORT` and `BABEL` are read from the environment (with `.env` auto-loaded via
 `node --env-file-if-exists=.env`). By default `BABEL` is auto-detected from
@@ -88,6 +99,14 @@ Run the full check (tests + eslint + prettier):
 
 ```bash
 npm test
+```
+
+Run the Playwright end-to-end tests (they start the backend and the frontend
+dev server automatically; run `npx playwright install chromium` once in
+`frontend/` first):
+
+```bash
+npm run test-e2e
 ```
 
 ## License

@@ -4,4 +4,5 @@
 .github
 compose*.yaml
 coverage
+dist
 node_modules
