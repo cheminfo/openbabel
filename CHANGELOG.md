@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.3.0](https://github.com/cheminfo/openbabel/compare/v1.2.0...v1.3.0) (2026-07-09)
+
+
+### Features
+
+* add web frontend with 2D/3D/SVG structure preview ([23c9057](https://github.com/cheminfo/openbabel/commit/23c9057d8d79a0cb7fcf816d16703367fe652442))
+* align project with current standards ([1165f5a](https://github.com/cheminfo/openbabel/commit/1165f5a237b95550e4dfc7388f81114f848e44cd))
+* limit parallel conversions and kill long-running ones ([133b567](https://github.com/cheminfo/openbabel/commit/133b567ab32f7a95f325f4e43c3956c2023623c7))
+
+
+### Bug Fixes
+
+* **compose:** drop ulimits.nproc/nofile, use pids_limit instead ([5f29817](https://github.com/cheminfo/openbabel/commit/5f29817cd2e4cc14c4905b2b34dbc85a28c6784e))
+* **compose:** traefik default host is openbabel.cheminfo.org ([b56eef2](https://github.com/cheminfo/openbabel/commit/b56eef28d75e191d114be53f869733a780733607))
+
 ## [1.2.0](https://github.com/cheminfo/openbabel/compare/v1.1.0...v1.2.0) (2026-04-20)
 
 
