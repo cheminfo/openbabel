@@ -1,10 +1,6 @@
-import { spawnSync } from 'node:child_process';
-
-import getBabel from './utils/getBabel.js';
 import getInputFormats from './utils/getInputFormats.js';
 import getOutputFormats from './utils/getOutputFormats.js';
-
-const BABEL = getBabel();
+import runBabel from './utils/runBabel.js';
 
 export default function convert(fastify) {
   fastify.route({
@@ -77,15 +73,10 @@ async function doConvert(request, response) {
   );
 
   try {
-    const result = spawnSync(BABEL, flags, {
-      stdio: ['pipe', 'pipe', 'pipe'],
-      input: params.input,
-      encoding: 'utf8',
-      timeout: 10000,
-    });
-
-    response.send({ result: result.stdout, log: result.stderr });
+    const { stdout, stderr } = await runBabel(flags, params.input);
+    response.send({ result: stdout, log: stderr });
   } catch (error) {
-    response.send({ result: {}, log: error.toString() });
+    if (error.statusCode) throw error;
+    response.send({ result: '', log: String(error) });
   }
 }

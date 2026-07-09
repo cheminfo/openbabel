@@ -78,6 +78,12 @@ npm run dev
 `node --env-file-if-exists=.env`). By default `BABEL` is auto-detected from
 `/opt/homebrew/bin/obabel` and `/usr/bin/obabel`.
 
+At most `MAX_PARALLEL_CONVERSIONS` (default 4) obabel processes run in
+parallel; further requests wait in a queue of at most `MAX_QUEUED_CONVERSIONS`
+(default 32) entries, beyond which the API replies `503`. A conversion running
+longer than `CONVERSION_TIMEOUT_MS` (default 2000) is killed and the response
+`log` explains the timeout. See `.env.example` for all variables.
+
 Run the full check (tests + eslint + prettier):
 
 ```bash

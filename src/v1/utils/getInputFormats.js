@@ -4,10 +4,15 @@ import getBabel from './getBabel.js';
 
 const BABEL = getBabel();
 
+let formats;
+
 export default function getInputFormats() {
-  const result = spawnSync(BABEL, ['-L', 'formats', 'read'], {
-    stdio: ['pipe', 'pipe', 'pipe'],
-    encoding: 'utf8',
-  });
-  return result.stdout.split(/\r?\n/);
+  if (!formats) {
+    const result = spawnSync(BABEL, ['-L', 'formats', 'read'], {
+      stdio: ['pipe', 'pipe', 'pipe'],
+      encoding: 'utf8',
+    });
+    formats = result.stdout.split(/\r?\n/);
+  }
+  return formats;
 }
